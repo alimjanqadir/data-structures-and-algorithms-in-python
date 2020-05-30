@@ -1,5 +1,3 @@
-import math
-
 def recursive_russian(x, y, z):
     if y <= 0:
         return z
@@ -9,12 +7,14 @@ def recursive_russian(x, y, z):
 
     return recursive_russian(x + x, y / 2, z)
 
+
 def recursive_russian(x, y):
     if y == 0:
         return 0
     if y % 2 == 0:
         return 2 * recursive_russian(y / 2, x)
-    return x + recursive_russian((y - 1) / 2, x)  
+    return x + recursive_russian((y - 1) / 2, x)
+
 
 def naive(x, y):
     z = 0
@@ -23,5 +23,3 @@ def naive(x, y):
         y = y - 1
 
     return z
-
-print 0 / 10

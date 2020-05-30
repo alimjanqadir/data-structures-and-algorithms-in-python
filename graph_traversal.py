@@ -182,7 +182,7 @@ class Graph(object):
         MODIFIES: the value of the visited property of nodes in self.nodes
         RETURN: a list of the node values (integers)."""
 
-        # Clear visit flags before iterate. 
+        # Clear visit flags before iterate.
         self._clear_visited()
         # Find the start node
         node = self.find_node(start_node_num)

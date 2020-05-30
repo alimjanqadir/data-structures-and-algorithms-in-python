@@ -16,7 +16,7 @@ def create_tour(nodes):
             tour.append((nodes[x], nodes[x + 1]))
         else:
             tour.append((nodes[x], first_node))
-    return tou
+    return tour
 
 #########
 
@@ -126,8 +126,8 @@ def find_eulerian_tour_helper(graph, tour):
 
         previous_node_in_tour = tour[len(tour) - 1]
 
-        if (previous_node_in_tour != from_node and
-                previous_node_in_tour != to_node):
+        if previous_node_in_tour != from_node \
+                and previous_node_in_tour != to_node:
             continue
 
         if previous_node_in_tour == from_node:
@@ -146,9 +146,9 @@ def find_eulerian_tour_helper(graph, tour):
     else:
         return tour
 
+
 print find_eulerian_tour([(1, 2), (2, 3), (3, 1)])
 
 print find_eulerian_tour([(0, 1), (1, 5), (1, 7), (4, 5),
-(4, 8), (1, 6), (3, 7), (5, 9),
-(2, 4), (0, 4), (2, 5), (3, 6), (8, 9)])
-
+                          (4, 8), (1, 6), (3, 7), (5, 9),
+                          (2, 4), (0, 4), (2, 5), (3, 6), (8, 9)])

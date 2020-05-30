@@ -16,10 +16,10 @@ Cairo (Egypt, Africa)
 Shanghai (China, Asia)"""
 
 locations = {
-    'North America': {'USA': ['Mountain View','Atlanta']},
-    'Asia':{'China':['Shanghai'],'India':['Bangalore']},
-    'Africa':{'Egypt':['Cairo']}
-    }
+    'North America': {'USA': ['Mountain View', 'Atlanta']},
+    'Asia': {'China': ['Shanghai'], 'India': ['Bangalore']},
+    'Africa': {'Egypt': ['Cairo']}
+}
 
 """Print the following (using "print").
 1. A list of all cities in the USA in
@@ -35,25 +35,24 @@ American City
 Asian City - Country
 Asian City - Country"""
 for continent in locations:
-	# Print all American cities
-	if continent == 'North America':
-		print 1 # Required index
+    # Print all American cities
+    if continent == 'North America':
+        print 1  # Required index
 
-		for city in sorted(locations[continent]['USA']):
-			print city
+        for city in sorted(locations[continent]['USA']):
+            print city
 
-	# Print all Asian cities with region name
-	if continent == 'Asia':
-		print 2 # Required index
+    # Print all Asian cities with region name
+    if continent == 'Asia':
+        print 2  # Required index
 
-		# Cities extracted and put it to a new array for later sorting
-		array = []
-		for country in locations[continent]:
-			for city in locations[continent][country]:
-				array.append({'name': city, 'region': country})
-				
-		# Sort and print
-		array = sorted(array)
-		for city in array:
-			print city['name'] + " - " + city['region']
+        # Cities extracted and put it to a new array for later sorting
+        array = []
+        for country in locations[continent]:
+            for city in locations[continent][country]:
+                array.append({'name': city, 'region': country})
 
+        # Sort and print
+        array = sorted(array)
+        for city in array:
+            print city['name'] + " - " + city['region']

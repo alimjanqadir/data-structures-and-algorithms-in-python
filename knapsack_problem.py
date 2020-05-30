@@ -52,8 +52,20 @@ class KnapsackProblem(object):
                         knapsack[j] = compared_item
         return knapsack
 
+    def solution_2(self, weight_limit):
+        # Let's try to find for value for weight next time.
+        weights_list = [0] * weight_limit
+        for item in self.items:
+            value = item[0]
+            weight = item[1]
+            for i in xrange(weight - 1, weight_limit):
+                if weights_list[i] < value:
+                    weights_list[i] = value
+
+        return weights_list
+
 
 knapsack_problem = KnapsackProblem(
-    [(12, 8), (4, 4), (2, 3), (13, 13), (2, 4)])
+    [(4, 4), (12, 8), (2, 3), (13, 13), (2, 4)])
 
-print knapsack_problem.brute_force(15)
+print knapsack_problem.solution_2(15)

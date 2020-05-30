@@ -4,6 +4,7 @@ class Node(object):
         self.left = None
         self.right = None
 
+
 class BST(object):
     def __init__(self, root):
         self.root = Node(root)
@@ -29,14 +30,14 @@ class BST(object):
 
     def preorder_print(self, start, traversal):
         if start:
-            traversal += str(start.value)+ "-"
+            traversal += str(start.value) + "-"
             traversal = self.preorder_print(start.left, traversal)
             traversal = self.preorder_print(start.right, traversal)
         return traversal
-        
+
     def search(self, find_val):
         return self.bst_search(self.root, find_val)
-    
+
     def bst_search(self, start, find_val):
         if start:
             if find_val < start.value:
@@ -46,6 +47,8 @@ class BST(object):
             else:
                 return True
         return False
+
+
 # Set up treeb
 tree = BST(4)
 
@@ -60,4 +63,3 @@ tree.insert(5)
 print tree.search(4)
 # Should be False
 print tree.search(6)
-

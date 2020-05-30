@@ -2,12 +2,13 @@
 in a hash table, where keys are calculated
 using the first two letters of the string."""
 
+
 class HashTable(object):
     def __init__(self):
-        self.table = [None]*10000
+        self.table = [None] * 10000
 
     def store(self, string):
-        """Input a string that's stored in 
+        """Input a string that's stored in
         the table."""
         # Generate hash
         hash = self.calculate_hash_value(string)
@@ -27,8 +28,8 @@ class HashTable(object):
         if hash != -1:
             output = self.table[hash]
             # Return the result if exist
-            if output != None:
-                return hash;
+            if output is not None:
+                return hash
         return -1
 
     def calculate_hash_value(self, string):
@@ -36,13 +37,15 @@ class HashTable(object):
         hash value from a string."""
         # Check whther input is empty
         if len(string) != 0:
-            # Generate hash by multiplying first character with 100 and add second character
+            # Generate hash by multiplying first character with 100 and
+            # add second character
             first_char = string[0]
             second_char = string[1]
             hash = ord(first_char) * 100 + ord(second_char)
             return hash
         return -1
-    
+
+
 # Setup
 hash_table = HashTable()
 

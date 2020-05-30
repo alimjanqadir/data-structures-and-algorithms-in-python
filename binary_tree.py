@@ -4,6 +4,7 @@ class Node(object):
         self.left = None
         self.right = None
 
+
 class BinaryTree(object):
     def __init__(self, root):
         self.root = Node(root)
@@ -12,7 +13,7 @@ class BinaryTree(object):
         """Return True if the value
         is in the tree, return
         False otherwise."""
-     
+
         return self.preorder_search(self.root, find_val)
 
     def print_tree(self):
@@ -22,7 +23,7 @@ class BinaryTree(object):
         return self.preorder_print(self.root, "")[:-1]
 
     def preorder_search(self, start, find_val):
-        """Helper method - use this to create a 
+        """Helper method - use this to create a
         recursive search solution."""
         # Check whther current node is None
         if start:
@@ -30,18 +31,20 @@ class BinaryTree(object):
                 return True
             else:
                 # If the value is not in the left node, check right node
-                return self.preorder_search(start.right, find_val) or self.preorder_search(start.left, find_val)
-              
+                return self.preorder_search(start.right, find_val) or \
+                    self.preorder_search(start.left, find_val)
+
         return False
 
     def preorder_print(self, start, traversal):
-        """Helper method - use this to create a 
+        """Helper method - use this to create a
         recursive print solution."""
         if start:
             traversal += (str(start.value) + "-")
             traversal = self.preorder_print(start.left, traversal)
             traversal = self.preorder_print(start.right, traversal)
         return traversal
+
 
 # Set up tree
 tree = BinaryTree(1)
@@ -55,7 +58,6 @@ tree.root.left.right = Node(5)
 print tree.search(4)
 # Should be False
 print tree.search(6)
-
 
 
 # Test print_tree

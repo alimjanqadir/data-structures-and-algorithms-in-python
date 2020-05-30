@@ -3,11 +3,13 @@ class Node(object):
         self.value = value
         self.edges = []
 
+
 class Edge(object):
     def __init__(self, value, node_from, node_to):
         self.value = value
         self.node_from = node_from
         self.node_to = node_to
+
 
 class Graph(object):
     def __init__(self, nodes=[], edges=[]):
@@ -26,10 +28,10 @@ class Graph(object):
                 from_found = node
             if node_to_val == node.value:
                 to_found = node
-        if from_found == None:
+        if from_found is None:
             from_found = Node(node_from_val)
             self.nodes.append(from_found)
-        if to_found == None:
+        if to_found is None:
             to_found = Node(node_to_val)
             self.nodes.append(to_found)
         new_edge = Edge(new_edge_val, from_found, to_found)
@@ -43,7 +45,8 @@ class Graph(object):
         (Edge Value, From Node Value, To Node Value)"""
         edge_list = []
         for edge in self.edges:
-            edge_list.append((edge.value, edge.node_from.value, edge.node_to.value))
+            edge_list.append(
+                (edge.value, edge.node_from.value, edge.node_to.value))
         return edge_list
 
     def get_adjacency_list(self):
@@ -54,30 +57,33 @@ class Graph(object):
         Each section in the list will store a list
         of tuples that looks like this:
         (To Node, Edge Value)"""
-        node_size = len(self.nodes) + 1 # Index start from 1
-        adjacency_list  = [None] * node_size
+        node_size = len(self.nodes) + 1  # Index start from 1
+        adjacency_list = [None] * node_size
         for node in self.nodes:
             for edge in node.edges:
                 if edge.node_to.value != node.value:
                     if adjacency_list[node.value]:
-                        adjacency_list[node.value].append((edge.node_to.value, edge.value))
+                        adjacency_list[node.value].append(
+                            (edge.node_to.value, edge.value))
                     else:
-                        adjacency_list[node.value] = [(edge.node_to.value, edge.value)]        
+                        adjacency_list[node.value] = [
+                            (edge.node_to.value, edge.value)]
         return adjacency_list
-    
+
     def get_adjacency_matrix(self):
         """Return a matrix, or 2D list.
         Row numbers represent from nodes,
         column numbers represent to nodes.
         Store the edge values in each spot,
         and a 0 if no edge exists."""
-        node_size = len(self.nodes) + 1 # Index start from 1
+        node_size = len(self.nodes) + 1  # Index start from 1
         adjacency_matrix_list = [[0] * node_size for _ in range(node_size)]
         for node in self.nodes:
             for edge in node.edges:
                 if edge.node_to.value != node.value:
                     adjacency_matrix_list[node.value][edge.node_to.value] = edge.value
         return adjacency_matrix_list
+
 
 graph = Graph()
 graph.insert_edge(100, 1, 2)
