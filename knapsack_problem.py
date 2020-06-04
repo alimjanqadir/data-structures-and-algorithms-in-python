@@ -61,6 +61,7 @@ class KnapsackProblem(object):
             for i in xrange(weight - 1, weight_limit):
                 if weights_list[i] < value:
                     weights_list[i] = value
+                        
 
         return weights_list
 
