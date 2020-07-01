@@ -35,9 +35,7 @@ class KnapsackProblem(object):
                 if calculated_weight > weight_limit:
                     continue
 
-                test_value = knapsack.get(i, (0, 0))[1]
-
-                if (calculated_weight + sum_weight) - test_value \
+                if (calculated_weight + sum_weight) - current_item_weight \
                         <= weight_limit:
                     knapsack[j] = compared_item
                     sum_weight += compared_item_weight
@@ -52,21 +50,28 @@ class KnapsackProblem(object):
                         knapsack[j] = compared_item
         return knapsack
 
-    def solution_2(self, weight_limit):
-        # Let's try to find for value for weight next time.
-        weights_list = [0] * weight_limit
-        for item in self.items:
-            value = item[0]
-            weight = item[1]
-            if weights_list[weight] < value:
-                for i in xrange(weight - 1, weight_limit):
-                    if weights_list[i] > value:
-                        continue
-                    weights_list[i] = value
-        return weights_list
+    def naive_recurive_solution(self, weight_limit, n):
+        # Base case
+        if n == 0 or weight_limit == 0:
+            return 0
+
+        nth_item_weight = self.items[n - 1][1]
+        nth_item_value = self.items[n - 1][0]
+
+        if nth_item_weight > weight_limit:
+            return self.naive_recurive_solution(weight_limit, n - 1)
+        else:
+            nth_item_included = nth_item_value + \
+                self.naive_recurive_solution(
+                    weight_limit - nth_item_weight, n - 1)
+            nth_item_not_included = self.naive_recurive_solution(
+                weight_limit, n - 1)
+
+            return max(nth_item_included, nth_item_not_included)
 
 
-knapsack_problem = KnapsackProblem(
-    [(4, 4), (12, 8), (2, 3), (13, 13), (2, 4)])
+array = [(4, 4), (12, 8), (2, 3), (13, 13), (2, 4)]
+knapsack_problem = KnapsackProblem(array)
 
-print knapsack_problem.solution_2(15)
+print knapsack_problem.naive_recurive_solution(15, len(array))
+print knapsack_problem.brute_force(15)
