@@ -1,41 +1,41 @@
 import sys
-class KnapsackProblem(object):
 
+
+class KnapsackProblem(object):
     def __init__(self, items):
         self.items = items
 
-    def brute_force(self, weight_limit):
+    def brute_force_solution(self, weight_limit):
         knapsack = {}
         sum_weight = sys.maxsize
         sum_value = 0
 
         for i in xrange(0, len(self.items)):
-            current_item = self.items[i]
-            current_item_value = current_item[0]
-            current_item_weight = current_item[1]
+            nth_item = self.items[i]
+            nth_item_value = nth_item[0]
+            nth_item_weight = nth_item[1]
 
-            if current_item_weight <= weight_limit and \
-                    current_item_value >= sum_value:
-                knapsack = {}
-                knapsack[i] = current_item
-                sum_value = current_item_value
-                sum_weight = current_item_weight
+            if nth_item_weight <= weight_limit and \
+                    nth_item_value >= sum_value:
+                knapsack = {i: nth_item}
+                sum_value = nth_item_value
+                sum_weight = nth_item_weight
 
             for j in xrange(i + 1, len(self.items)):
                 compared_item = self.items[j]
                 compared_item_value = compared_item[0]
                 compared_item_weight = compared_item[1]
 
-                if current_item_weight > weight_limit or \
+                if nth_item_weight > weight_limit or \
                         compared_item_weight > weight_limit:
                     continue
 
-                calculated_weight = current_item_weight + compared_item_weight
-                calculated_value = current_item_value + compared_item_value
+                calculated_weight = nth_item_weight + compared_item_weight
+                calculated_value = nth_item_value + compared_item_value
                 if calculated_weight > weight_limit:
                     continue
 
-                if (calculated_weight + sum_weight) - current_item_weight \
+                if (calculated_weight + sum_weight) - nth_item_weight \
                         <= weight_limit:
                     knapsack[j] = compared_item
                     sum_weight += compared_item_weight
@@ -45,33 +45,77 @@ class KnapsackProblem(object):
                             calculated_value > sum_value:
                         sum_weight = calculated_weight
                         sum_value = calculated_value
-                        knapsack = {}
-                        knapsack[i] = current_item
-                        knapsack[j] = compared_item
+                        knapsack = {i: nth_item, j: compared_item}
         return knapsack
 
-    def naive_recurive_solution(self, weight_limit, n):
+    def naive_recursive_solution(self, weight_limit):
+        return self._naive_recursive_helper(
+            weight_limit,
+            len(self.items))
+
+    def _naive_recursive_helper(self, weight_limit, n, knapsack=None, dp=None):
+        # Initialize default value
+        if knapsack is None:
+            knapsack = {'value': 0, 'items': []}
         # Base case
         if n == 0 or weight_limit == 0:
-            return 0
+            return knapsack
 
-        nth_item_weight = self.items[n - 1][1]
-        nth_item_value = self.items[n - 1][0]
+        # Nth item value and weight
+        nth_item = self.items[n - 1]
+        nth_item_value = nth_item[0]
+        nth_item_weight = nth_item[1]
 
+        # Skip if nth item weight is higher than weight_limit
         if nth_item_weight > weight_limit:
-            return self.naive_recurive_solution(weight_limit, n - 1)
+            return self._naive_recursive_helper(
+                weight_limit,
+                n - 1,
+                knapsack)
         else:
-            nth_item_included = nth_item_value + \
-                self.naive_recurive_solution(
-                    weight_limit - nth_item_weight, n - 1)
-            nth_item_not_included = self.naive_recurive_solution(
-                weight_limit, n - 1)
+            # If weight is not higher than the limit,
+            # use nth item in to subset.
 
-            return max(nth_item_included, nth_item_not_included)
+            # Find the subset that don't include nth item
+            result_nth_item_not_included = self._naive_recursive_helper(
+                weight_limit,
+                n - 1,
+                # Pass knapsack that doesn't include nth item
+                knapsack)
+
+            # Find the subset that include nth item
+            # Copy the list and create a new instance to avoid side effects
+            knapsack_items_nth_item_included = list(knapsack["items"])
+            knapsack_items_nth_item_included.append(self.items[n - 1])
+            knapsack_items_nth_item_value_included = \
+                knapsack["value"] + nth_item_value
+
+            result_nth_item_included = self._naive_recursive_helper(
+                # Remove nth item weight
+                weight_limit - nth_item_weight,
+                n - 1,
+                # Pass knapsack that include nth item
+                {
+                    'value': knapsack_items_nth_item_value_included,
+                    'items': knapsack_items_nth_item_included
+                })
+            # Get the result in two different subsets and return the subset
+            # with higher value
+            value_nth_item_included = result_nth_item_included
+            value_nth_item_not_included = result_nth_item_not_included
+
+            if value_nth_item_included >= value_nth_item_not_included:
+                result = result_nth_item_included
+            else:
+                result = result_nth_item_not_included
+            return result
+
+    def dynamic_solution(self, weight_limit):
+
+        return
 
 
-array = [(4, 4), (12, 8), (2, 3), (13, 13), (2, 4)]
+array = [(3, 1), (5, 3), (7, 5), (9, 7)]
 knapsack_problem = KnapsackProblem(array)
-
-print knapsack_problem.naive_recurive_solution(15, len(array))
-print knapsack_problem.brute_force(15)
+print knapsack_problem.brute_force_solution(7)
+print knapsack_problem.naive_recursive_solution(7)
