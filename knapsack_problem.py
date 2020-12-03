@@ -1,77 +1,90 @@
 import sys
+import collections
 
 
-class KnapsackProblem(object):
-    def __init__(self, items):
+class KnapsackProblemSolver(object):
+    def __init__(self, items, weight_limit):
         self.items = items
+        self.weight_limit = weight_limit
 
-    def naive_recursive_solution(self, weight_limit):
-        return self._naive_recursive_helper(
-            weight_limit,
-            len(self.items))
+    def naive_recursively(self):
+        return self._naive_recursive_helper(self.weight_limit, len(self.items))
 
-    def _naive_recursive_helper(self, weight_limit, n, knapsack=None, dp=None):
-        # Initialize default value
-        if knapsack is None:
-            knapsack = {'value': 0, 'items': []}
-        # Base case
-        if n == 0 or weight_limit == 0:
-            return knapsack
+    def _naive_recursive_helper(self, weight_limit, n):
+        if weight_limit <= 0 or n <= 0:
+            return 0
 
         # Nth item value and weight
         nth_item = self.items[n - 1]
-        nth_item_value = nth_item[0]
-        nth_item_weight = nth_item[1]
+        nth_item_weight = nth_item[0]
+        nth_item_value = nth_item[1]
 
         # Skip if nth item weight is higher than weight_limit
         if nth_item_weight > weight_limit:
             return self._naive_recursive_helper(
                 weight_limit,
-                n - 1,
-                knapsack)
+                n - 1)
         else:
-            # If weight is not higher than the limit,
+            # If weight is smaller than the limit,
             # use nth item in to subset.
 
             # Find the subset that don't include nth item
             result_nth_item_not_included = self._naive_recursive_helper(
                 weight_limit,
-                n - 1,
-                # Pass knapsack that doesn't include nth item
-                knapsack)
+                n - 1)
 
-            # Find the subset that include nth item
-            # Copy the list and create a new instance to avoid side effects
-            knapsack_items_nth_item_included = list(knapsack["items"])
-            knapsack_items_nth_item_included.append(self.items[n - 1])
-            knapsack_items_nth_item_value_included = \
-                knapsack["value"] + nth_item_value
-
-            result_nth_item_included = self._naive_recursive_helper(
+            result_nth_item_included = nth_item_value + self._naive_recursive_helper(
                 # Remove nth item weight
                 weight_limit - nth_item_weight,
-                n - 1,
-                # Pass knapsack that include nth item
-                {
-                    'value': knapsack_items_nth_item_value_included,
-                    'items': knapsack_items_nth_item_included
-                })
-            # Get the result in two different subsets and return the subset
-            # with higher value
-            value_nth_item_included = result_nth_item_included
-            value_nth_item_not_included = result_nth_item_not_included
+                n - 1)
 
-            if value_nth_item_included >= value_nth_item_not_included:
+            if result_nth_item_included >= result_nth_item_not_included:
                 result = result_nth_item_included
             else:
                 result = result_nth_item_not_included
-            return result
+        return result
 
-    def dynamic_solution(self, weight_limit):
+    def dynamic_recursively(self):
+        return self._recursive_solution_dynamic_helper(self.weight_limit, len(self.items))
 
-        return
+    def _recursive_solution_dynamic_helper(self, weight_limit, n, dp=None):
+        # Initialize default parameter
+        if dp is None:
+            dp = [[0 for x in xrange(weight_limit)] for x in xrange(len(self.items))]
+
+        # Base case
+        if n <= 0 or weight_limit <= 0:
+            return 0
+
+        if dp[n - 1][weight_limit - 1] != 0:
+            return dp[n - 1][weight_limit - 1]
+
+        # Nth item value and weight
+        nth_item = self.items[n - 1]
+        nth_item_weight = nth_item[0]
+        nth_item_value = nth_item[1]
+
+        # Skip if nth item weight is higher than weight_limit
+        if nth_item_weight > weight_limit:
+            return self._recursive_solution_dynamic_helper(
+                weight_limit,
+                n - 1, dp)
+        else:
+            # If weight is not higher than the limit,
+            # use nth item in to subset.
+
+            # Find the subset that don't include nth item
+            result_nth_item_not_included = self._recursive_solution_dynamic_helper(weight_limit, n - 1, dp)
+            # Find the subset that include nth item
+            result_nth_item_included = nth_item_value + self._recursive_solution_dynamic_helper(
+                weight_limit - nth_item_weight, n - 1, dp)
+
+            max_value = max(result_nth_item_not_included, result_nth_item_included)
+            dp[n - 1][weight_limit - 1] = max_value
+            return max_value
 
 
-array = [(3, 1), (5, 3), (7, 5), (9, 7)]
-knapsack_problem = KnapsackProblem(array)
-print knapsack_problem.naive_recursive_solution(7)
+array = [(1, 3), (3, 5), (5, 7), (7, 9), (2, 10)]
+knapsack_problem = KnapsackProblemSolver(array, 15)
+print knapsack_problem.naive_recursively()
+
