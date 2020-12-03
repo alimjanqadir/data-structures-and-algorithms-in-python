@@ -5,49 +5,6 @@ class KnapsackProblem(object):
     def __init__(self, items):
         self.items = items
 
-    def brute_force_solution(self, weight_limit):
-        knapsack = {}
-        sum_weight = sys.maxsize
-        sum_value = 0
-
-        for i in xrange(0, len(self.items)):
-            nth_item = self.items[i]
-            nth_item_value = nth_item[0]
-            nth_item_weight = nth_item[1]
-
-            if nth_item_weight <= weight_limit and \
-                    nth_item_value >= sum_value:
-                knapsack = {i: nth_item}
-                sum_value = nth_item_value
-                sum_weight = nth_item_weight
-
-            for j in xrange(i + 1, len(self.items)):
-                compared_item = self.items[j]
-                compared_item_value = compared_item[0]
-                compared_item_weight = compared_item[1]
-
-                if nth_item_weight > weight_limit or \
-                        compared_item_weight > weight_limit:
-                    continue
-
-                calculated_weight = nth_item_weight + compared_item_weight
-                calculated_value = nth_item_value + compared_item_value
-                if calculated_weight > weight_limit:
-                    continue
-
-                if (calculated_weight + sum_weight) - nth_item_weight \
-                        <= weight_limit:
-                    knapsack[j] = compared_item
-                    sum_weight += compared_item_weight
-                    sum_value += compared_item_value
-                else:
-                    if calculated_weight <= weight_limit and \
-                            calculated_value > sum_value:
-                        sum_weight = calculated_weight
-                        sum_value = calculated_value
-                        knapsack = {i: nth_item, j: compared_item}
-        return knapsack
-
     def naive_recursive_solution(self, weight_limit):
         return self._naive_recursive_helper(
             weight_limit,
@@ -117,5 +74,4 @@ class KnapsackProblem(object):
 
 array = [(3, 1), (5, 3), (7, 5), (9, 7)]
 knapsack_problem = KnapsackProblem(array)
-print knapsack_problem.brute_force_solution(7)
 print knapsack_problem.naive_recursive_solution(7)
