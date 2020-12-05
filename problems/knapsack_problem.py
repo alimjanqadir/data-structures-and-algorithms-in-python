@@ -7,6 +7,60 @@ class KnapsackProblemSolver(object):
         self.items = items
         self.weight_limit = weight_limit
 
+    def naive_iteratively(self):
+        knapsack = []
+        knapsack_weight = 0
+        knapsack_value = 0
+        max_value = 0
+        print "knapsack value: " + str(knapsack)
+        for x in xrange(len(self.items)):
+            # Current item properties.
+            nth_item = self.items[x]
+            nth_item_weight = nth_item[0]
+            nth_item_value = nth_item[1]
+            # Knapsack properties.
+            knapsack = [nth_item]
+            knapsack_weight = nth_item_weight
+            knapsack_value = nth_item_value
+            if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
+                max_value = knapsack_value
+            print "knapsack value: " + str(knapsack)
+            for y in xrange(x):
+                item_y = self.items[y]
+                item_y_weight = item_y[0]
+                item_y_value = item_y[1]
+
+                knapsack.append(item_y)
+                knapsack_weight += item_y_weight
+                knapsack_value += item_y_value
+                if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
+                    max_value = knapsack_value
+                print "knapsack value: " + str(knapsack)
+                # Reset to previous state
+                knapsack = [nth_item]
+                knapsack_weight = nth_item_weight
+                knapsack_value = nth_item_value
+
+            for z in xrange(x):
+                item_z = self.items[z]
+                item_z_weight = item_z[0]
+                item_z_value = item_z[1]
+
+                knapsack.append(item_z)
+                knapsack_weight += item_z_weight
+                knapsack_value += item_z_value
+                if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
+                    max_value = knapsack_value
+                print "knapsack value: " + str(knapsack)
+                # Reset to previous state
+
+            # Reset to previous state
+            knapsack = [nth_item]
+            knapsack_weight = nth_item_weight
+            knapsack_value = nth_item_value
+
+        return max_value
+
     def naive_recursively(self):
         return self._naive_recursive_helper(self.weight_limit, len(self.items))
 
@@ -86,5 +140,5 @@ class KnapsackProblemSolver(object):
 
 array = [(1, 3), (3, 5), (5, 7), (7, 9), (2, 10)]
 knapsack_problem = KnapsackProblemSolver(array, 15)
+print knapsack_problem.naive_iteratively()
 print knapsack_problem.naive_recursively()
-
