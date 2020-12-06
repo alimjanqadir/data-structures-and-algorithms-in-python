@@ -26,6 +26,11 @@ class KnapsackProblemSolver(object):
                 max_value = knapsack_value
             print "knapsack value: " + str(knapsack)
             for y in xrange(x):
+                # Reset to previous state
+                knapsack = [nth_item]
+                knapsack_weight = nth_item_weight
+                knapsack_value = nth_item_value
+
                 item_y = self.items[y]
                 item_y_weight = item_y[0]
                 item_y_value = item_y[1]
@@ -40,24 +45,17 @@ class KnapsackProblemSolver(object):
                 knapsack = [nth_item]
                 knapsack_weight = nth_item_weight
                 knapsack_value = nth_item_value
+                for z in xrange(0, y+1):
+                    item_z = self.items[z]
+                    item_z_weight = item_z[0]
+                    item_z_value = item_z[1]
 
-            for z in xrange(x):
-                item_z = self.items[z]
-                item_z_weight = item_z[0]
-                item_z_value = item_z[1]
-
-                knapsack.append(item_z)
-                knapsack_weight += item_z_weight
-                knapsack_value += item_z_value
-                if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
-                    max_value = knapsack_value
-                print "knapsack value: " + str(knapsack)
-                # Reset to previous state
-
-            # Reset to previous state
-            knapsack = [nth_item]
-            knapsack_weight = nth_item_weight
-            knapsack_value = nth_item_value
+                    knapsack.append(item_z)
+                    knapsack_weight += item_z_weight
+                    knapsack_value += item_z_value
+                    if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
+                        max_value = knapsack_value
+                    print "knapsack value: " + str(knapsack)
 
         return max_value
 

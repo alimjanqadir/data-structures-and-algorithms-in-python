@@ -49,7 +49,7 @@ class BST(object):
         return False
 
 
-# Set up treeb
+# Set up tree
 tree = BST(4)
 
 # Insert elements
