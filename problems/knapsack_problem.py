@@ -1,7 +1,3 @@
-import sys
-import collections
-
-
 class KnapsackProblemSolver(object):
     def __init__(self, items, weight_limit):
         self.items = items
@@ -12,8 +8,11 @@ class KnapsackProblemSolver(object):
         knapsack_weight = 0
         knapsack_value = 0
         max_value = 0
-        print "knapsack value: " + str(knapsack)
-        for x in xrange(len(self.items)):
+        max_set = []
+        permutation_count = 0
+        print("knapsack value: " + str(knapsack))
+        for x in range(len(self.items)):
+            permutation_count += 1
             # Current item properties.
             nth_item = self.items[x]
             nth_item_weight = nth_item[0]
@@ -24,9 +23,10 @@ class KnapsackProblemSolver(object):
             knapsack_value = nth_item_value
             if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
                 max_value = knapsack_value
-            print "knapsack value: " + str(knapsack)
-            for y in xrange(x):
-                # Reset to previous state
+                max_set = knapsack
+            print("knapsack value: " + str(knapsack))
+            for y in range(x):
+                permutation_count += 1
                 knapsack = [nth_item]
                 knapsack_weight = nth_item_weight
                 knapsack_value = nth_item_value
@@ -38,25 +38,48 @@ class KnapsackProblemSolver(object):
                 knapsack.append(item_y)
                 knapsack_weight += item_y_weight
                 knapsack_value += item_y_value
+
                 if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
                     max_value = knapsack_value
-                print "knapsack value: " + str(knapsack)
-                # Reset to previous state
-                knapsack = [nth_item]
-                knapsack_weight = nth_item_weight
-                knapsack_value = nth_item_value
-                for z in xrange(0, y+1):
+                    max_set = knapsack
+
+                print("knapsack value: " + str(knapsack))
+                previous_subset = list(knapsack)
+                previous_subset_weight = knapsack_weight
+                previous_subset_value = knapsack_value
+                for z in range(y):
+                    permutation_count += 1
+                    knapsack = list(previous_subset)
+                    knapsack_weight = previous_subset_weight
+                    knapsack_value = previous_subset_value
                     item_z = self.items[z]
                     item_z_weight = item_z[0]
                     item_z_value = item_z[1]
-
                     knapsack.append(item_z)
                     knapsack_weight += item_z_weight
                     knapsack_value += item_z_value
+
                     if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
                         max_value = knapsack_value
-                    print "knapsack value: " + str(knapsack)
+                        max_set = knapsack
 
+                    print("knapsack value: " + str(knapsack))
+                    for a in range(z):
+                        permutation_count += 1
+                        item_a = self.items[a]
+                        item_a_weight = item_a[0]
+                        item_a_value = item_a[1]
+
+                        knapsack.append(item_a)
+                        knapsack_weight += item_a_weight
+                        knapsack_value += item_a_value
+
+                        if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
+                            max_value = knapsack_value
+                            max_set = knapsack
+                        print("knapsack value: " + str(knapsack))
+        print(max_set)
+        print(permutation_count)
         return max_value
 
     def naive_recursively(self):
@@ -102,7 +125,7 @@ class KnapsackProblemSolver(object):
     def _recursive_solution_dynamic_helper(self, weight_limit, n, dp=None):
         # Initialize default parameter
         if dp is None:
-            dp = [[0 for x in xrange(weight_limit)] for x in xrange(len(self.items))]
+            dp = [[0 for x in range(weight_limit)] for x in range(len(self.items))]
 
         # Base case
         if n <= 0 or weight_limit <= 0:
@@ -136,7 +159,9 @@ class KnapsackProblemSolver(object):
             return max_value
 
 
-array = [(1, 3), (3, 5), (5, 7), (7, 9), (2, 10)]
-knapsack_problem = KnapsackProblemSolver(array, 15)
-print knapsack_problem.naive_iteratively()
-print knapsack_problem.naive_recursively()
+array = [(1, 3), (3, 5), (5, 7), (7, 9), (2, 10), (4, 12)]
+knapsack_problem = KnapsackProblemSolver(array, 19)
+print(knapsack_problem.naive_iteratively())
+print(knapsack_problem.naive_recursively())
+print(knapsack_problem.dynamic_recursively())
+
