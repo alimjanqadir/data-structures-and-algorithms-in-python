@@ -3,7 +3,7 @@ Input a list.
 Output a sorted list."""
 
 
-def quicksort1(start, end, array,):
+def quicksort1(start, end, array, ):
     array_length = len(array)
 
     # Return empty array when array is empty
@@ -44,6 +44,5 @@ def quicksort(array):
 
 test = [21, 4, 1, 3, 9, 20, 25, 6, 21, 14]
 test1 = [22, 11, 3, 6, 25, 32, 31, 71, 88, 1]
-test1 = [2212, 13211, 31, 16, 2225, 32132, 1, 1, 0, 0]
-print quicksort(test)
-print quicksort(test1)
+print(quicksort(test))
+print(quicksort(test1))

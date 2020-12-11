@@ -11,12 +11,13 @@ def create_tour(nodes):
     # your code here
     tour = []
     first_node = nodes[0]
-    for x in xrange(0, len(nodes)):
+    for x in range(0, len(nodes)):
         if x < len(nodes) - 1:
             tour.append((nodes[x], nodes[x + 1]))
         else:
             tour.append((nodes[x], first_node))
     return tour
+
 
 #########
 
@@ -73,17 +74,21 @@ def is_eulerian_tour(nodes, tour):
         try:
             d = degree[node]
             if d % 2 == 1:
-                print "Node %s has odd degree" % node
+                print
+                "Node %s has odd degree" % node
                 return False
         except KeyError:
-            print "Node %s was not in your tour" % node
+            print
+            "Node %s was not in your tour" % node
             return False
     connected = connected_nodes(tour)
     if len(connected) == len(nodes):
         return True
     else:
-        print "Your graph wasn't connected"
+        print
+        "Your graph wasn't connected"
         return False
+
 
 # Find Eulerian Tour
 #
@@ -119,7 +124,7 @@ def find_eulerian_tour_helper(graph, tour):
     # and used to end recurisve function.
     is_found = False
 
-    for x in xrange(len(graph)):
+    for x in range(len(graph)):
         edge = graph[x]
         from_node = edge[0]
         to_node = edge[1]
@@ -147,8 +152,8 @@ def find_eulerian_tour_helper(graph, tour):
         return tour
 
 
-print find_eulerian_tour([(1, 2), (2, 3), (3, 1)])
+print(find_eulerian_tour([(1, 2), (2, 3), (3, 1)]))
 
-print find_eulerian_tour([(0, 1), (1, 5), (1, 7), (4, 5),
+print(find_eulerian_tour([(0, 1), (1, 5), (1, 7), (4, 5),
                           (4, 8), (1, 6), (3, 7), (5, 9),
-                          (2, 4), (0, 4), (2, 5), (3, 6), (8, 9)])
+                          (2, 4), (0, 4), (2, 5), (3, 6), (8, 9)]))

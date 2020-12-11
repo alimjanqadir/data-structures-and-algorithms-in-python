@@ -37,14 +37,14 @@ Asian City - Country"""
 for continent in locations:
     # Print all American cities
     if continent == 'North America':
-        print 1  # Required index
+        print(1)  # Required index
 
         for city in sorted(locations[continent]['USA']):
-            print city
+            print(city)
 
     # Print all Asian cities with region name
     if continent == 'Asia':
-        print 2  # Required index
+        print(2)  # Required index
 
         # Cities extracted and put it to a new array for later sorting
         array = []
@@ -55,4 +55,4 @@ for continent in locations:
         # Sort and print
         array = sorted(array)
         for city in array:
-            print city['name'] + " - " + city['region']
+            print(city['name'] + " - " + city['region'])

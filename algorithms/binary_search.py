@@ -25,5 +25,5 @@ def binary_search(input_array, value):
 test_list = [-4, 1, 3, 9, 11, 15, 19, 29, 43, 55, 234, 34234, 144444]
 test_val1 = -4
 test_val2 = 15
-print binary_search(test_list, test_val1)
-print binary_search(test_list, test_val2)
+print(binary_search(test_list, test_val1))
+print(binary_search(test_list, test_val2))

@@ -6,7 +6,7 @@ def fib(position):
     first = 0
     second = 1
     next = first + second
-    for x in xrange(2, position):
+    for x in range(2, position):
         first = second
         second = next
         next = first + second
@@ -21,6 +21,6 @@ def fib_recursive(position):
     return fib_recursive(position - 2) + fib_recursive(position - 1)
 
 
-print fib_recursive(9)
-print fib_recursive(11)
-print fib_recursive(0)
+print(fib_recursive(9))
+print(fib_recursive(11))
+print(fib_recursive(0))

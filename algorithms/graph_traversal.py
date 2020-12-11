@@ -1,5 +1,4 @@
 import pprint
-from collections import deque
 
 
 class Node(object):
@@ -14,6 +13,7 @@ class Edge(object):
         self.value = value
         self.node_from = node_from
         self.node_to = node_to
+
 
 # You only need to change code with docs strings that have TODO.
 # Specifically: Graph.dfs_helper and Graph.bfs
@@ -37,14 +37,14 @@ class Graph(object):
         self.node_names = list(names)
 
     def insert_node(self, new_node_val):
-        "Insert a new node with value new_node_val"
+        """Insert a new node with value new_node_val"""
         new_node = Node(new_node_val)
         self.nodes.append(new_node)
         self._node_map[new_node_val] = new_node
         return new_node
 
     def insert_edge(self, new_edge_val, node_from_val, node_to_val):
-        "Insert a new edge, creating new nodes if necessary"
+        """Insert a new edge, creating new nodes if necessary"""
         nodes = {node_from_val: None, node_to_val: None}
         for node in self.nodes:
             if node.value in nodes:
@@ -76,7 +76,7 @@ class Graph(object):
 
     def get_adjacency_list(self):
         """Return a list of lists.
-        The indecies of the outer list represent "from" nodes.
+        The indices of the outer list represent "from" nodes.
         Each section in the list will store a list
         of tuples that looks like this:
         (To Node, Edge Value)"""
@@ -97,12 +97,13 @@ class Graph(object):
 
         def convert_to_names(pair, graph=self):
             node_number, value = pair
-            return (graph.node_names[node_number], value)
+            return graph.node_names[node_number], value
 
         def map_conversion(adjacency_list_for_node):
             if adjacency_list_for_node is None:
                 return None
             return map(convert_to_names, adjacency_list_for_node)
+
         return [map_conversion(adjacency_list_for_node)
                 for adjacency_list_for_node in adjacency_list]
 
@@ -113,7 +114,7 @@ class Graph(object):
         Store the edge values in each spot,
         and a 0 if no edge exists."""
         max_index = self.find_max_index()
-        adjacency_matrix = [[0] * (max_index) for _ in range(max_index)]
+        adjacency_matrix = [[0] * max_index for _ in range(max_index)]
         for edg in self.edges:
             from_index, to_index = edg.node_from.value, edg.node_to.value
             adjacency_matrix[from_index][to_index] = edg.value
@@ -132,7 +133,7 @@ class Graph(object):
         return max_index
 
     def find_node(self, node_number):
-        "Return the node with value node_number or None"
+        """Return the node with value node_number or None"""
         return self._node_map.get(node_number)
 
     def _clear_visited(self):
@@ -178,7 +179,7 @@ class Graph(object):
         """TODO: Create an iterative implementation of Breadth First Search
         iterating through a node's edges. The output should be a list of
         numbers corresponding to the traversed nodes.
-        ARGUMENTS: start_node_num is thein node number (integer)
+        ARGUMENTS: start_node_num is the node number (integer)
         MODIFIES: the value of the visited property of nodes in self.nodes
         RETURN: a list of the node values (integers)."""
 
@@ -187,22 +188,22 @@ class Graph(object):
         # Find the start node
         node = self.find_node(start_node_num)
         node.visited = True
-        # Initialize the queque
+        # Initialize the queue
         head = 0
         tail = 0
 
         # Manually insert a starting element.
-        queque = [node]
+        queue = [node]
         ret_list = [node.value]
 
         # Forward the tail pointer for manually inserted element.
         tail += 1
 
         while head < tail:
-            for edge in queque[head].edges:
+            for edge in queue[head].edges:
                 if not edge.node_to.visited:
                     edge.node_to.visited = True
-                    queque.append(edge.node_to)
+                    queue.append(edge.node_to)
                     ret_list.append(edge.node_to.value)
                     tail += 1
             head += 1
@@ -218,54 +219,53 @@ graph = Graph()
 # You do not need to change anything below this line.
 # You only need to implement Graph.dfs_helper and Graph.bfs
 
-graph.set_node_names(('Mountain View',   # 0
-                      'San Francisco',   # 1
-                      'London',          # 2
-                      'Shanghai',        # 3
-                      'Berlin',          # 4
-                      'Sao Paolo',       # 5
-                      'Bangalore'))      # 6
+graph.set_node_names(('Mountain View',  # 0
+                      'San Francisco',  # 1
+                      'London',  # 2
+                      'Shanghai',  # 3
+                      'Berlin',  # 4
+                      'Sao Paolo',  # 5
+                      'Bangalore'))  # 6
 
-
-graph.insert_edge(51, 0, 1)     # MV <-> SF
-graph.insert_edge(51, 1, 0)     # SF <-> MV
-graph.insert_edge(9950, 0, 3)   # MV <-> Shanghai
-graph.insert_edge(9950, 3, 0)   # Shanghai <-> MV
+graph.insert_edge(51, 0, 1)  # MV <-> SF
+graph.insert_edge(51, 1, 0)  # SF <-> MV
+graph.insert_edge(9950, 0, 3)  # MV <-> Shanghai
+graph.insert_edge(9950, 3, 0)  # Shanghai <-> MV
 graph.insert_edge(10375, 0, 5)  # MV <-> Sao Paolo
 graph.insert_edge(10375, 5, 0)  # Sao Paolo <-> MV
-graph.insert_edge(9900, 1, 3)   # SF <-> Shanghai
-graph.insert_edge(9900, 3, 1)   # Shanghai <-> SF
-graph.insert_edge(9130, 1, 4)   # SF <-> Berlin
-graph.insert_edge(9130, 4, 1)   # Berlin <-> SF
-graph.insert_edge(9217, 2, 3)   # London <-> Shanghai
-graph.insert_edge(9217, 3, 2)   # Shanghai <-> London
-graph.insert_edge(932, 2, 4)    # London <-> Berlin
-graph.insert_edge(932, 4, 2)    # Berlin <-> London
-graph.insert_edge(9471, 2, 5)   # London <-> Sao Paolo
-graph.insert_edge(9471, 5, 2)   # Sao Paolo <-> London
+graph.insert_edge(9900, 1, 3)  # SF <-> Shanghai
+graph.insert_edge(9900, 3, 1)  # Shanghai <-> SF
+graph.insert_edge(9130, 1, 4)  # SF <-> Berlin
+graph.insert_edge(9130, 4, 1)  # Berlin <-> SF
+graph.insert_edge(9217, 2, 3)  # London <-> Shanghai
+graph.insert_edge(9217, 3, 2)  # Shanghai <-> London
+graph.insert_edge(932, 2, 4)  # London <-> Berlin
+graph.insert_edge(932, 4, 2)  # Berlin <-> London
+graph.insert_edge(9471, 2, 5)  # London <-> Sao Paolo
+graph.insert_edge(9471, 5, 2)  # Sao Paolo <-> London
 # (6) 'Bangalore' is intentionally disconnected (no edges)
 # for this problem and should produce None in the
 # Adjacency List, etc.
 
 pp = pprint.PrettyPrinter(indent=2)
 
-print "Edge List"
+print("Edge List")
 pp.pprint(graph.get_edge_list_names())
 
-print "\nAdjacency List"
+print("\nAdjacency List")
 pp.pprint(graph.get_adjacency_list_names())
 
-print "\nAdjacency Matrix"
+print("\nAdjacency Matrix")
 pp.pprint(graph.get_adjacency_matrix())
 
-print "\nDepth First Search"
+print("\nDepth First Search")
 pp.pprint(graph.dfs_names(2))
 
 # Should print:
 # Depth First Search
 # ['London', 'Shanghai', 'Mountain View', 'San Francisco', 'Berlin', 'Sao Paolo']
 
-print "\nBreadth First Search"
+print("\nBreadth First Search")
 pp.pprint(graph.bfs_names(2))
 # test error reporting
 # pp.pprint(['Sao Paolo', 'Mountain View', 'San Francisco', 'London', 'Shanghai', 'Berlin'])
