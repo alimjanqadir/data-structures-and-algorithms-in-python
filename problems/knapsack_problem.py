@@ -5,82 +5,7 @@ class KnapsackProblemSolver(object):
         self.permutation_count = 0
 
     def naive_iteratively(self):
-        knapsack = []
-        knapsack_weight = 0
-        knapsack_value = 0
-        max_value = 0
-        self.permutation_count += 1
-        print("knapsack value: " + str(knapsack))
-        for x in range(len(self.items)):
-            # Current item properties.
-            nth_item = self.items[x]
-            nth_item_weight = nth_item[0]
-            nth_item_value = nth_item[1]
-            # Knapsack properties.
-            knapsack = [nth_item]
-            knapsack_weight = nth_item_weight
-            knapsack_value = nth_item_value
-            if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
-                max_value = knapsack_value
-            self.permutation_count += 1
-            print("knapsack value: " + str(knapsack))
-            for y in range(x):
-                knapsack = [nth_item]
-                knapsack_weight = nth_item_weight
-                knapsack_value = nth_item_value
-
-                item_y = self.items[y]
-                item_y_weight = item_y[0]
-                item_y_value = item_y[1]
-
-                knapsack.append(item_y)
-                knapsack_weight += item_y_weight
-                knapsack_value += item_y_value
-
-                if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
-                    max_value = knapsack_value
-
-                self.permutation_count += 1
-                print("knapsack value: " + str(knapsack))
-                previous_subset = list(knapsack)
-                previous_subset_weight = knapsack_weight
-                previous_subset_value = knapsack_value
-                for z in range(y):
-                    knapsack = list(previous_subset)
-                    knapsack_weight = previous_subset_weight
-                    knapsack_value = previous_subset_value
-                    item_z = self.items[z]
-                    item_z_weight = item_z[0]
-                    item_z_value = item_z[1]
-                    knapsack.append(item_z)
-                    knapsack_weight += item_z_weight
-                    knapsack_value += item_z_value
-
-                    if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
-                        max_value = knapsack_value
-
-                    self.permutation_count += 1
-                    print("knapsack value: " + str(knapsack))
-                    previous_subset = list(knapsack)
-                    previous_subset_weight = knapsack_weight
-                    previous_subset_value = knapsack_value
-                    for a in range(z):
-                        knapsack = list(previous_subset)
-                        knapsack_weight = previous_subset_weight
-                        knapsack_value = previous_subset_value
-                        item_a = self.items[a]
-                        item_a_weight = item_a[0]
-                        item_a_value = item_a[1]
-
-                        knapsack.append(item_a)
-                        knapsack_weight += item_a_weight
-                        knapsack_value += item_a_value
-
-                        if knapsack_weight <= self.weight_limit and max_value < knapsack_value:
-                            max_value = knapsack_value
-                        self.permutation_count += 1
-                        print("knapsack value: " + str(knapsack))
-        return max_value
+        pass
 
     def naive_recursively(self):
         return self._naive_recursive_helper(self.weight_limit, len(self.items))
@@ -162,12 +87,11 @@ class KnapsackProblemSolver(object):
 
 # array = [(1, 3), (3, 5), (5, 7), (7, 9), (2, 10), (4, 12)]
 # knapsack_problem = KnapsackProblemSolver(array, 19)
-array = [(1, 3), (3, 5), (5, 7), (7, 9), (2, 10), (2, 12), ]
+array = [(1, 3), (3, 5), (5, 7), (7, 9), (2, 10), (2, 12), (2, 16)]
 knapsack_problem = KnapsackProblemSolver(array, 1000000000)
-print(knapsack_problem.naive_iteratively())
+knapsack_problem.naive_iteratively()
 print(knapsack_problem.permutation_count)
 knapsack_problem.permutation_count = 0
-print(knapsack_problem.naive_recursively())
+knapsack_problem.naive_recursively()
 print(knapsack_problem.permutation_count)
-# print(knapsack_problem.dynamic_recursively())
-# print(knapsack_problem.permutation_count)
+
