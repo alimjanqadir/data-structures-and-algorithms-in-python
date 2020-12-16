@@ -24,24 +24,35 @@ class LinkedList:
             node.next = temp
         self.tail += 1
 
-    def remove(self):
-        pass
+    def remove(self, position):
+        if len(self.list) == 0 or position < 0 or position > len(self.list) - 1:
+            return
+
+        temp = self.list[position]
+        previous_node_index = position - 1
+        if position == self.head or position == self.tail:
+            del self.list[position]
+        else:
+            previous_node = self.list[previous_node_index]
+            previous_node.next = temp.next
+            del self.list[position]
+        self.tail -= 1
 
     def print_list(self):
-        while self.head < self.tail:
-            node = self.list[self.head]
-            print(node.value)
-            self.head += 1
+        result = []
+        head = self.head
+        while head < self.tail:
+            node = self.list[head]
+            result.append(node.value)
+            head += 1
+
+        print(result)
 
 
 a = Node('a')
 b = Node('b')
 c = Node('c')
 d = Node('d')
-a.next = b
-b.next = c
-a.next = b
-a.next = b
 
 linked_list = LinkedList()
 linked_list.insert(a)
