@@ -10,13 +10,21 @@ class LinkedList:
         self.head = 0
         self.tail = 0
 
-    def insert(self, node: Node, position=-1):
-        if len(self.list) == 0:
-            self.list.append(node)
-        elif position == -1:
-            previous_node = self.list[len(self.list) - 1]
-            previous_node.next = node
-            self.list.append(node)
+    def append(self, node):
+        temp = self.list[len(self.list) - 1]
+        temp.next = node
+        self.list.append(node)
+        self.tail += 1
+
+    def insert(self, position, node):
+        if position < 0 or position > len(self.list) - 1 or node is None:
+            return
+
+        self.list.append(node)
+        if position == self.head:
+            temp = self.list[position]
+            node.next = temp
+            self.head = len(self.list) - 1
         else:
             temp = self.list[position]
             previous_node = self.list[position - 1]
@@ -40,12 +48,10 @@ class LinkedList:
 
     def print_list(self):
         result = []
-        head = self.head
-        while head < self.tail:
-            node = self.list[head]
+        node = self.list[self.head]
+        while node:
             result.append(node.value)
-            head += 1
-
+            node = node.next
         print(result)
 
 
@@ -55,8 +61,10 @@ c = Node('c')
 d = Node('d')
 
 linked_list = LinkedList()
-linked_list.insert(a)
-linked_list.insert(b)
-linked_list.insert(c)
-linked_list.insert(d)
+linked_list.append(a)
+linked_list.append(b)
+linked_list.append(c)
+linked_list.append(c)
+linked_list.insert(0, d)
+linked_list.insert(0, d)
 linked_list.print_list()
