@@ -11,8 +11,9 @@ class LinkedList:
         self.tail = 0
 
     def append(self, node):
-        temp = self.list[len(self.list) - 1]
-        temp.next = node
+        if len(self.list) > 0:
+            temp = self.list[self.tail - 1]
+            temp.next = node
         self.list.append(node)
         self.tail += 1
 
@@ -48,10 +49,12 @@ class LinkedList:
 
     def print_list(self):
         result = []
+        list_index = 0
         node = self.list[self.head]
-        while node:
+        while list_index < self.tail and node:
             result.append(node.value)
             node = node.next
+            list_index += 1
         print(result)
 
 
@@ -63,8 +66,21 @@ d = Node('d')
 linked_list = LinkedList()
 linked_list.append(a)
 linked_list.append(b)
+linked_list.append(b)
+linked_list.append(b)
+linked_list.append(b)
 linked_list.append(c)
 linked_list.append(c)
+linked_list.append(c)
+linked_list.append(c)
+linked_list.append(c)
+linked_list.append(d)
+linked_list.append(d)
+linked_list.insert(0, d)
+linked_list.insert(0, d)
+linked_list.insert(0, d)
+linked_list.insert(0, d)
+linked_list.insert(0, d)
 linked_list.insert(0, d)
 linked_list.insert(0, d)
 linked_list.print_list()
