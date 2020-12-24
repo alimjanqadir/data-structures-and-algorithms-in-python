@@ -4,25 +4,42 @@ class Node(object):
         self.next = None
 
 
-class LinkedList:
+class LinkedList(object):
     def __init__(self):
         self.list = []
-        self.head = 0
-        self.tail = 0
+        self.head = None
+        self.tail = None
 
-    def insert(self, node: Node, position=-1):
-        if len(self.list) == 0:
-            self.list.append(node)
-        elif position == -1:
-            previous_node = self.list[len(self.list) - 1]
-            previous_node.next = node
-            self.list.append(node)
+    def append(self, node):
+        node = Node(node.value)
+        if self.head:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = node
         else:
-            temp = self.list[position]
-            previous_node = self.list[position - 1]
-            previous_node.next = node
-            node.next = temp
-        self.tail += 1
+            self.head = node
+
+    def insert(self, position, node):
+        node = Node(node.value)
+        if self.head:
+            current = self.head
+            previous = current
+            index = 0
+            while current.next:
+                if index == position:
+                    if current == self.head:
+                        node.next = current
+                        self.head = node
+                    else:
+                        node.next = current
+                        previous.next = node
+                    break
+                previous = current
+                current = current.next
+                index += 1
+        else:
+            self.head = node
 
     def remove(self, position):
         if len(self.list) == 0 or position < 0 or position > len(self.list) - 1:
@@ -40,12 +57,10 @@ class LinkedList:
 
     def print_list(self):
         result = []
-        head = self.head
-        while head < self.tail:
-            node = self.list[head]
+        node = self.head
+        while node:
             result.append(node.value)
-            head += 1
-
+            node = node.next
         print(result)
 
 
@@ -55,8 +70,9 @@ c = Node('c')
 d = Node('d')
 
 linked_list = LinkedList()
-linked_list.insert(a)
-linked_list.insert(b)
-linked_list.insert(c)
-linked_list.insert(d)
+linked_list.append(a)
+linked_list.append(b)
+linked_list.append(c)
+linked_list.insert(0, d)
+linked_list.insert(1, a)
 linked_list.print_list()
