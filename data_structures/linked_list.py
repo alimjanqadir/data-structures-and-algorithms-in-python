@@ -39,14 +39,7 @@ class LinkedList(object):
             self.head = node
 
     def delete(self, position):
-        temp = self.list[position]
-        previous_node_index = position - 1
-        if position == self.head:
-            del self.list[position]
-        else:
-            previous_node = self.list[previous_node_index]
-            previous_node.next = temp.next
-            del self.list[position]
+        pass
 
     def print(self):
         result = []
