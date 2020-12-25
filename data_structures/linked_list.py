@@ -4,57 +4,56 @@ class Node(object):
         self.next = None
 
 
-class LinkedList:
+class LinkedList(object):
     def __init__(self):
         self.list = []
-        self.head = 0
-        self.tail = 0
+        self.head = None
 
     def append(self, node):
-        if len(self.list) > 0:
-            temp = self.list[self.tail - 1]
-            temp.next = node
-        self.list.append(node)
-        self.tail += 1
+        node = Node(node.value)
+        if self.head:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = node
+        else:
+            self.head = node
 
     def insert(self, position, node):
-        if position < 0 or position > len(self.list) - 1 or node is None:
-            return
-
-        self.list.append(node)
-        if position == self.head:
-            temp = self.list[position]
-            node.next = temp
-            self.head = len(self.list) - 1
+        node = Node(node.value)
+        if self.head:
+            current = self.head
+            index = 0
+            while current.next:
+                if index == position:
+                    if current == self.head:
+                        node.next = current
+                        self.head = node
+                    else:
+                        node.next = current.next
+                        current.next = node
+                    break
+                current = current.next
+                index += 1
         else:
-            temp = self.list[position]
-            previous_node = self.list[position - 1]
-            previous_node.next = node
-            node.next = temp
-        self.tail += 1
+            self.head = node
 
-    def remove(self, position):
-        if len(self.list) == 0 or position < 0 or position > len(self.list) - 1:
-            return
-
+    def delete(self, position):
         temp = self.list[position]
         previous_node_index = position - 1
-        if position == self.head or position == self.tail:
+        if position == self.head:
             del self.list[position]
         else:
             previous_node = self.list[previous_node_index]
             previous_node.next = temp.next
             del self.list[position]
-        self.tail -= 1
 
-    def print_list(self):
+    def print(self):
         result = []
-        list_index = 0
-        node = self.list[self.head]
-        while list_index < self.tail and node:
+        node = self.head
+        while node:
             result.append(node.value)
             node = node.next
-            list_index += 1
         print(result)
 
 
@@ -66,21 +65,16 @@ d = Node('d')
 linked_list = LinkedList()
 linked_list.append(a)
 linked_list.append(b)
-linked_list.append(b)
-linked_list.append(b)
-linked_list.append(b)
 linked_list.append(c)
-linked_list.append(c)
-linked_list.append(c)
-linked_list.append(c)
-linked_list.append(c)
-linked_list.append(d)
-linked_list.append(d)
 linked_list.insert(0, d)
 linked_list.insert(0, d)
 linked_list.insert(0, d)
 linked_list.insert(0, d)
-linked_list.insert(0, d)
-linked_list.insert(0, d)
-linked_list.insert(0, d)
-linked_list.print_list()
+linked_list.insert(1, a)
+linked_list.insert(1, a)
+linked_list.insert(1, a)
+linked_list.insert(0, b)
+linked_list.insert(0, b)
+linked_list.delete(0)
+linked_list.delete(0)
+linked_list.print()
