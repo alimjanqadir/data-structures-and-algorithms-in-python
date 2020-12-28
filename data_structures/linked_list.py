@@ -39,7 +39,19 @@ class LinkedList(object):
             self.head = node
 
     def delete(self, position):
-        pass
+        current = self.head
+        previous = None
+        index = 0
+        while current:
+            if index == position:
+                if previous:
+                    previous.next = current.next
+                    break
+                else:
+                    self.head = current.next
+            previous = current
+            current = current.next
+            index += 1
 
     def print(self):
         result = []
