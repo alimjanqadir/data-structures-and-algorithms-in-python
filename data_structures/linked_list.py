@@ -6,59 +6,78 @@ class Node(object):
 
 class LinkedList(object):
     def __init__(self):
-        self.list = []
         self.head = None
+        self.tail = None
+        self.size = 0
 
     def append(self, node):
         node = Node(node.value)
-        if self.head:
-            current = self.head
-            while current.next:
-                current = current.next
-            current.next = node
+        if self.size:
+            self.tail.next = node
+            self.tail = node
         else:
             self.head = node
+            self.tail = node
+        self.size += 1
 
     def insert(self, position, node):
-        node = Node(node.value)
-        if self.head:
-            current = self.head
-            index = 0
-            while current.next:
-                if index == position:
-                    if current == self.head:
-                        node.next = current
-                        self.head = node
-                    else:
-                        node.next = current.next
-                        current.next = node
-                    break
-                current = current.next
-                index += 1
-        else:
-            self.head = node
+        if position < 0 or position > self.size:
+            raise ValueError
 
-    def delete(self, position):
+        node = Node(node.value)
         current = self.head
         previous = None
+        if current:
+            index = 0
+            while current:
+                if index == position:
+                    if position == 0:
+                        node.next = current
+                        self.head = node
+                    elif position == self.size:
+                        self.append(node)
+                    else:
+                        previous.next = node
+                        node.next = current
+                    self.size += 1
+                    break
+                previous = current
+                current = current.next
+                index += 1
+            if current is None:
+                self.append(node)
+        else:
+            self.head = node
+            self.tail = node
+            self.size += 1
+
+    def delete(self, position):
+        if position < 0 or position > self.size - 1:
+            raise ValueError
+
+        previous = None
+        current = self.head
         index = 0
         while current:
             if index == position:
-                if previous:
-                    previous.next = current.next
-                    break
-                else:
+                if position == 0:
                     self.head = current.next
+                elif position == self.size:
+                    self.tail = previous
+                else:
+                    previous.next = current.next
+                self.size -= 1
+                break
             previous = current
             current = current.next
             index += 1
 
     def print(self):
         result = []
-        node = self.head
-        while node:
-            result.append(node.value)
-            node = node.next
+        current = self.head
+        while current:
+            result.append(current.value)
+            current = current.next
         print(result)
 
 
@@ -71,15 +90,7 @@ linked_list = LinkedList()
 linked_list.append(a)
 linked_list.append(b)
 linked_list.append(c)
-linked_list.insert(0, d)
-linked_list.insert(0, d)
-linked_list.insert(0, d)
-linked_list.insert(0, d)
-linked_list.insert(1, a)
-linked_list.insert(1, a)
-linked_list.insert(1, a)
-linked_list.insert(0, b)
-linked_list.insert(0, b)
-linked_list.delete(0)
-linked_list.delete(0)
+linked_list.append(d)
+linked_list.append(a)
+linked_list.append(a)
 linked_list.print()
