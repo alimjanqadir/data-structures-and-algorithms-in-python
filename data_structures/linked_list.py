@@ -147,16 +147,3 @@ class LinkedList(object):
 
     def size(self):
         return self._size
-
-
-linked_list = LinkedList()
-linked_list.append('a')
-linked_list.append('b')
-linked_list.append('c')
-linked_list.append('d')
-linked_list.insert(0, 'd')
-linked_list.insert(0, 'c')
-linked_list.insert(0, 'f')
-linked_list.remove(0)
-linked_list.remove(0)
-linked_list.print()
