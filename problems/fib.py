@@ -1,26 +1,13 @@
-def fib(position):
-    if position == 0:
-        return 0
-    if position == 1:
-        return 1
-    first = 0
-    second = 1
-    next = first + second
-    for x in range(2, position):
-        first = second
-        second = next
-        next = first + second
-    return next
+def fib(n):
+    counter = 0
+    a, b = 0, 1
+    print(a, b, end=' ')
+    while counter < n:
+        print(a + b, end=' ')
+        t = a + b
+        a = b
+        b = t
+        counter += 1
 
 
-def fib_recursive(position):
-    if position < 0:
-        return 0
-    if position == 1:
-        return 1
-    return fib_recursive(position - 2) + fib_recursive(position - 1)
-
-
-print(fib_recursive(9))
-print(fib_recursive(11))
-print(fib_recursive(0))
+fib(10)
