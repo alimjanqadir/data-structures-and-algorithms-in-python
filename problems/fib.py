@@ -10,4 +10,13 @@ def fib(n):
         counter += 1
 
 
-fib(10)
+def fib_recursive(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        result = fib_recursive(n - 2) + fib_recursive(n - 1)
+        return result
+
+
